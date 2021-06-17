@@ -12,8 +12,10 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "noImplicitAny": false, // TS7016, TS7006,
     "moduleResolution": "node",
     "importHelpers": true,
+    "strictNullChecks": false, // TS2345
     "target": "es2017",
     "module": "es2020",
     "lib": [
@@ -24,7 +26,9 @@
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
+    "fullTemplateTypeCheck": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "strictPropertyInitialization": false, // TS2564
   }
 }
