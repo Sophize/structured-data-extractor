@@ -25,6 +25,8 @@
           "options": {
             "outputPath": "dist/structured-data-extractor",
             "index": "src/index.html",
+            // See https://stackoverflow.com/questions/51485868/inject-must-be-called-from-an-injection-context"
+            "preserveSymlinks": true,
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",

@@ -23,7 +23,6 @@ describe('AppComponent', () => {
   it(`should have as title 'structured-data-extractor'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('structured-data-extractor');
   });
 
   it('should render title', () => {

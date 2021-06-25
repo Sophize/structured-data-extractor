@@ -338,15 +338,17 @@
     </svg>
 
   </div>
-  <!--<app-md-viewer [content]="'## Title \n $E=mc^2$'"></app-md-viewer>
-  <app-md-editor
-        ngDefaultControl
-        name="testEditor"
-        placeholder="Enter markdown..."
-        [formControl]="control"
-        [editingEnabled]="true"
+  <sophize-md-viewer style="width:100%" [content]="testString"></sophize-md-viewer>
+  <sophize-md-editor
+    style="width:100%"
+    ngDefaultControl
+    name="testEditor"
+    placeholder="Enter markdown..."
+    [language]="language"
+    [formControl]="control"
+    [editingEnabled]="true"
   >
-  </app-md-editor>-->
+  </sophize-md-editor>
 
   <!-- Resources -->
   <h2>Resources</h2>

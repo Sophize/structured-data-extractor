@@ -16,6 +16,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "strictNullChecks": false, // TS2345
+    "strictPropertyInitialization": false, // TS2564
     "target": "es2017",
     "module": "es2020",
     "lib": [
@@ -29,6 +30,5 @@
     "fullTemplateTypeCheck": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
-    "strictPropertyInitialization": false, // TS2564
   }
 }
