@@ -27,7 +27,6 @@
     "ngx-sophize-md-renderer": "^0.1.1",
     "rxjs": "^7.1.0",
     "sophize-datamodel": "^0.3.2",
-    "sophize-md-parser": "file:../sophize-md-parser",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
   },
