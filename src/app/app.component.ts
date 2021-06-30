@@ -11,9 +11,10 @@ export class AppComponent {
   testString = 
 `## Title1
 $$E=mc^2$$
-#wiki/T_asymptotic_cone
 
 #wiki/B_default
+
+#metamath/P_2p2e4
 `;
   language = Language.Informal;
   control = new FormControl();
