@@ -1,0 +1,30 @@
+.spacer {
+  flex: 1;
+}
+
+.toolbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5; 
+  color: black;
+  font-weight: 600;
+}
+
+.toolbar img {
+  margin: 0 16px;
+}
+
+.toolbar #twitter-logo {
+  height: 40px;
+  margin: 0 8px;
+}
+
+.toolbar #youtube-logo {
+  height: 40px;
+  margin: 0 16px;
+}
+
+.toolbar a:hover {
+  opacity: 0.7;
+}

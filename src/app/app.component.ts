@@ -7,15 +7,4 @@ import { Language } from 'sophize-datamodel';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  testString = 
-`## Title1
-$$E=mc^2$$
-
-#wiki/B_default
-
-#metamath/P_2p2e4
-`;
-  language = Language.Informal;
-  control = new FormControl();
-}
+export class AppComponent {}

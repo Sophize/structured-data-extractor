@@ -12,10 +12,10 @@ import {
 } from 'sophize-datamodel';
 
 @Injectable()
-export class LocalDataProvider1 implements AbstractDataProvider {
+export class LocalDataProvider implements AbstractDataProvider {
   metamathKeys = new Map<string, string>();
   constructor(
-    @Inject('ServerAddress1') private serverAddress: string,
+    @Inject('LocalServerAddress') private serverAddress: string,
     private http: HttpClient
   ) {
     console.log('Server address: ' + serverAddress);
@@ -93,5 +93,14 @@ export class LocalDataProvider1 implements AbstractDataProvider {
 
   onResourceOverlayAction(resourcePtr: ResourcePointer, dialog?: any): void {
     return;
+  }
+
+  saveResource(ptr: ResourcePointer, resource: Resource): Observable<any> {
+    const url = [
+      this.serverAddress,
+      ptr.datasetId,
+      ptr.resourceShowId + '.json',
+    ].join('/');
+    return this.http.post(url, resource);
   }
 }
