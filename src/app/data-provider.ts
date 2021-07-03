@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { AbstractDataProvider } from 'ngx-sophize-md-renderer';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { AbstractDataProvider, defaultResourceOverlayAction } from 'ngx-sophize-md-renderer';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   emptyTruthStatus,
   Language,
@@ -10,46 +9,33 @@ import {
   ResourcePointer,
   ResourceType,
 } from 'sophize-datamodel';
+import { ResourceServer } from './resource-server.service';
+import { WorkspaceService } from './workspace.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LocalDataProvider implements AbstractDataProvider {
-  metamathKeys = new Map<string, string>();
   constructor(
-    @Inject('LocalServerAddress') private serverAddress: string,
-    private http: HttpClient
-  ) {
-    console.log('Server address: ' + serverAddress);
-    this.http
-      .get(serverAddress + '/metamath_set_mm_latex_map')
-      .subscribe((response) => {
-        for (const v in response) {
-          this.metamathKeys[v] = response[v];
-        }
-        console.log(this.metamathKeys);
-      }, console.log);
-  }
+    private workspace: WorkspaceService,
+    private resourceServer: ResourceServer
+  ) {}
 
   getResources(ptrs: ResourcePointer[]): Observable<Resource[]> {
-    console.log('Application waala! ');
-    return forkJoin(
-      ptrs.map((ptr) => {
-        const url = [
-          this.serverAddress,
-          ptr.datasetId,
-          ptr.resourceShowId + '.json',
-        ].join('/');
+    const loaded = new Map<string, Resource>();
+    const toFetch = [] as ResourcePointer[];
+    ptrs.forEach((ptr) => {
+      const loadedResource = this.workspace.getLoadedResource(ptr);
+      if (loadedResource) loaded.set(ptr.toString(), loadedResource.updated);
+      else toFetch.push(ptr);
+    });
 
-        return this.http.get(url).pipe(
-          catchError((_) => of(null)),
-          map((response) => {
-            console.log(response);
-            if (response) {
-              response['assignablePtr'] = response['permanentPtr'] =
-                '#' + ptr.toString();
-            }
-            return response as Resource;
-          })
-        );
+    return this.resourceServer.getResources(toFetch).pipe(
+      map((fetched) => {
+        for (let i = 0; i < toFetch.length; i++) {
+          loaded.set(toFetch[i].toString(), fetched[i]);
+        }
+        return ptrs.map((ptr) => loaded.get(ptr.toString()));
       })
     );
   }
@@ -67,8 +53,7 @@ export class LocalDataProvider implements AbstractDataProvider {
   }
 
   getLatexDefs(language: Language, keys: string[]) {
-    if (language !== Language.MetamathSetMm) return of(keys);
-    return of(keys.map((key) => this.metamathKeys.get(key) || key));
+    return this.resourceServer.getLatexDefs(language, keys);
   }
 
   inUseBeliefset$ = new BehaviorSubject<ResourcePointer>(
@@ -92,15 +77,6 @@ export class LocalDataProvider implements AbstractDataProvider {
   }
 
   onResourceOverlayAction(resourcePtr: ResourcePointer, dialog?: any): void {
-    return;
-  }
-
-  saveResource(ptr: ResourcePointer, resource: Resource): Observable<any> {
-    const url = [
-      this.serverAddress,
-      ptr.datasetId,
-      ptr.resourceShowId + '.json',
-    ].join('/');
-    return this.http.post(url, resource);
+    defaultResourceOverlayAction(resourcePtr, dialog);
   }
 }
