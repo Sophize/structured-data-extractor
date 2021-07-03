@@ -1,0 +1,11 @@
+:host ::ng-deep div {
+  margin: 0;
+  padding: 0 !important;
+}
+.truncate {
+  font-size: 17px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: rtl;
+}

@@ -1,1 +1,14 @@
-<p>resource-list-panel works!</p>
+<mat-selection-list
+  #resources
+  [multiple]="false"
+  (selectionChange)="onSelectionChange($event)"
+  dense
+>
+  <mat-list-option
+    style="max-width: 20px; padding: 0 5px"
+    *ngFor="let ptr of resourcePtrList"
+    [value]="ptr"
+  >
+    <span class="truncate">{{ ptr }}</span>
+  </mat-list-option>
+</mat-selection-list>

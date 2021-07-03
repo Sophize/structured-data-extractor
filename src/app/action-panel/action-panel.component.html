@@ -1,1 +1,15 @@
-<p>action-panel works!</p>
+<ng-container *ngIf="state === State.IDLE">
+  <div style="display: flex; justify-content: space-between">
+    <div>
+      <button mat-raised-button color="primary" (click)="load()">Load</button>
+      <button mat-raised-button color="primary" (click)="addNew()">New</button>
+      <button mat-raised-button color="primary" (click)="saveAll()">Save all</button>
+    </div>
+    <button mat-raised-button color="accent" (click)="unload()">Unload All Unedited</button>
+  </div>
+  <button mat-raised-button color="primary">Add definition links</button>
+</ng-container>
+<ng-container *ngIf="state !== State.IDLE">
+  <mat-spinner diameter="40"></mat-spinner>
+</ng-container>
+<span *ngIf="status" style="margin:10px; font-size:large; color:gray">{{status}}</span>
