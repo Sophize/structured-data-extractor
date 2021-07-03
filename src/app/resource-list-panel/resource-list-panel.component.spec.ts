@@ -1,5 +1,5 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ResourceListPanelComponent } from './resource-list-panel.component';
 
 describe('ResourceListPanelComponent', () => {
@@ -8,9 +8,10 @@ describe('ResourceListPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ResourceListPanelComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientModule],
+      declarations: [ResourceListPanelComponent],
+      providers: [{ provide: 'LocalServerAddress', useValue: '' }],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,5 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { EditPanelComponent } from './edit-panel.component';
 
 describe('EditPanelComponent', () => {
@@ -8,9 +9,10 @@ describe('EditPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditPanelComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientModule, ReactiveFormsModule],
+      declarations: [EditPanelComponent],
+      providers: [{ provide: 'LocalServerAddress', useValue: '' }],
+    }).compileComponents();
   });
 
   beforeEach(() => {

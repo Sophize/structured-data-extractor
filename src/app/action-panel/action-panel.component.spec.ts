@@ -1,5 +1,5 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ActionPanelComponent } from './action-panel.component';
 
 describe('ActionPanelComponent', () => {
@@ -8,9 +8,10 @@ describe('ActionPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ActionPanelComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientModule],
+      declarations: [ActionPanelComponent],
+      providers: [{ provide: 'LocalServerAddress', useValue: '' }],
+    }).compileComponents();
   });
 
   beforeEach(() => {
