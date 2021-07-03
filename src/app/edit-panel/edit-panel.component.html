@@ -1,1 +1,27 @@
-<p>edit-panel works!</p>
+<div *ngIf="ptr" style="margin: 10px">
+  <div style="display: flex; justify-content: space-between">
+    <span style="font-size: 17px; margin: auto 0">{{ ptr?.toString() }}</span>
+    <div style="display: flex">
+      <button mat-raised-button color="primary" (click)="save()">Save</button>
+      <button mat-raised-button color="accent" (click)="reset()">Reset</button>
+      <button mat-raised-button color="accent" (click)="unload()">
+        Unload
+      </button>
+    </div>
+  </div>
+  <ng-container *ngIf="ptr?.resourceType === ResourceType.TERM">
+    <sophize-md-editor
+      style="width: 100%"
+      ngDefaultControl
+      name="testEditor"
+      placeholder="Enter markdown..."
+      [context]="ptr"
+      [formControl]="control"
+      [editingEnabled]="true"
+    >
+    </sophize-md-editor>
+  </ng-container>
+</div>
+<div style="margin: 10px" *ngIf="!ptr">
+  <i style="font-size: large; color: gray;">Please select a resource</i>
+</div>
