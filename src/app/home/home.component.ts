@@ -15,10 +15,10 @@ export class HomeComponent {
   
   Below are references to some resources. Make sure you have the right server configuration to view them.
 
-  #wiki/T_asymptotic_cone
+  #wiki/T_cone
   
   #metamath/P_2p2e4|EXPAND
   `;
   language = Language.Informal;
-  control = new FormControl();
+  control = new FormControl('## Pythagoras theorem \n$a^2 + b^2 = c^2$');
 }

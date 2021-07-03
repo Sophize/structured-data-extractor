@@ -11,7 +11,10 @@ import { ActionPanelComponent } from './action-panel/action-panel.component';
 import { EditPanelComponent } from './edit-panel/edit-panel.component';
 import { ExtractorViewComponent } from './extractor-view/extractor-view.component';
 import { HomeComponent } from './home/home.component';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { MatIconModule } from '@angular/material/icon';
 
     SophizeMdRendererModule.forRoot(LocalDataProvider),
 
+    MatButtonModule,
     MatIconModule,
+    MatListModule,
+    MatProgressSpinnerModule
   ],
   bootstrap: [AppComponent],
   providers: [

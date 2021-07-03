@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Language } from 'sophize-datamodel';
 
 @Component({
   selector: 'app-root',
