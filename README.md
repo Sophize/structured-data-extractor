@@ -6,6 +6,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+### Loading Resources
+By default, this application loads resources from a server at `http://localhost:8080`. You can update this by changing `LocalServerAddress` value in `app.module.ts`. For demo/development, unzip the contents of `test_server.zip` in a directory and start the server using the command `python3 server.py`.
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
