@@ -1,10 +1,10 @@
-# StructuredDataExtractor
+# Structured Data Extractor
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
 
 ## Development server
 
-Install dependencies using `npm ci` and run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Install dependencies using `npm ci` and run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Loading Resources
 By default, this application loads resources from a server at `http://localhost:8080`. You can update this by changing `LocalServerAddress` value in `app.module.ts`. For demo/development, unzip the contents of `test_server.zip` in a directory and start the server using the command `python3 server.py`.
