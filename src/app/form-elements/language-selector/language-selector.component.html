@@ -1,0 +1,13 @@
+<mat-form-field>
+  <mat-select
+    name="languageField"
+    [formControl]="control"
+    placeholder="Language"
+  >
+    <mat-option
+      *ngFor="let item of LANGUAGE_TO_NAME | keyvalue"
+      [value]="item.key"
+      >{{ item.value }}</mat-option
+    >
+  </mat-select>
+</mat-form-field>

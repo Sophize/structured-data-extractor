@@ -1,0 +1,87 @@
+<div style="display: flex; align-items: center">
+  <mat-icon
+    *ngIf="
+      needsPropositionPointer && inputTextResourceType === ResourceType.TERM
+    "
+    fontSet="fa"
+    fontIcon="fa-scroll"
+    style="color: gray"
+  >
+  </mat-icon>
+  <mat-button-toggle-group
+    *ngIf="
+      needsPropositionPointer && inputTextResourceType !== ResourceType.TERM
+    "
+    [(ngModel)]="inputPropPositive"
+    appearance="legacy"
+    (click)="onToggleClick()"
+    [disabled]="editingFrozen"
+  >
+    <mat-button-toggle class="thumbs-icon" [value]="true" aria-label="true">
+      <mat-icon fontSet="fa" fontIcon="fa-thumbs-up"></mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle class="thumbs-icon" [value]="false" aria-label="false">
+      <mat-icon fontSet="fa" fontIcon="fa-thumbs-down"></mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  <mat-form-field [ngClass]="{ 'left-margin': needsPropositionPointer }">
+    <input
+      matInput
+      [formControl]="inputTextControl"
+      [placeholder]="placeholder"
+      [disabled]="editingFrozen"
+    />
+  </mat-form-field>
+  <button
+    mat-icon-button
+    *ngIf="!singleResource"
+    color="primary"
+    display="inline"
+    type="submit"
+    [disabled]="!canAddResourceId() || editingFrozen"
+    (click)="onAddButtonClick()"
+  >
+    <mat-icon
+      fontSet="fa"
+      fontIcon="fa-plus-circle"
+      style="font-size: 25px"
+    ></mat-icon>
+  </button>
+</div>
+<ng-container *ngIf="!singleResource">
+  <div
+    *ngFor="
+      let resourceId of formResourceIds.controls
+        | slice: 0:numDisplayedResources;
+      let i = index
+    "
+    class="list-item"
+  >
+    <button
+      mat-icon-button
+      color="warn"
+      type="submit"
+      [disabled]="editingFrozen"
+      (click)="onDeleteButtonClick(i)"
+    >
+      <mat-icon fontSet="fa" fontIcon="fa-trash-alt"></mat-icon>
+    </button>
+    <app-mini-resource-display
+      [resourceId]="resourceId.value"
+      [resourceType]="resourceType"
+      [isPropositionPointer]="needsPropositionPointer"
+      [context]="context"
+    >
+    </app-mini-resource-display>
+  </div>
+  <i *ngIf="canViewMore()" (click)="showMore()" class="view-more">View More</i>
+</ng-container>
+
+<app-mini-resource-display
+  *ngIf="singleResource && hasValidValues"
+  [resourceId]="formSingleResource.value"
+  [resourceType]="resourceType"
+  [isPropositionPointer]="needsPropositionPointer"
+  [context]="context"
+>
+</app-mini-resource-display>

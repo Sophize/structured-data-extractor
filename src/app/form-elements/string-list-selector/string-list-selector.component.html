@@ -1,0 +1,47 @@
+<div>
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="newItem"
+      (keydown)="newItemKeydown($event)"
+      [placeholder]="placeholder"
+      [disabled]="editingFrozen"
+    />
+  </mat-form-field>
+  <button
+    mat-icon-button
+    *ngIf="!editingFrozen"
+    color="primary"
+    type="submit"
+    (click)="onAddButtonClick()"
+    [disabled]="!canAddString() || editingFrozen"
+  >
+    <mat-icon
+      fontSet="fa"
+      fontIcon="fa-plus-circle"
+      style="font-size: 25px"
+    ></mat-icon>
+  </button>
+</div>
+<div
+  *ngFor="let item of formArray.controls; let itemIndex = index"
+  [ngClass]="horizontalView ? 'horizontal-style' : 'vertical-style'"
+>
+  <button
+    mat-icon-button
+    color="warn"
+    type="submit"
+    class="delete-button"
+    (click)="onDeleteButtonClick(itemIndex)"
+    [disabled]="editingFrozen"
+  >
+    <mat-icon fontSet="fa" fontIcon="fa-trash-alt"></mat-icon>
+  </button>
+  <div class="non-md-div">
+    <span *ngIf="!useMarkdown" class="mat-body">{{ item.value }} </span>
+  </div>
+  <sophize-md-viewer
+    *ngIf="useMarkdown"
+    [content]="item.value"
+  ></sophize-md-viewer>
+</div>

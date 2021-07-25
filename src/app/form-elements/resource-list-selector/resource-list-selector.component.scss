@@ -1,0 +1,24 @@
+.thumbs-icon {
+    font-size: 20px;
+}
+.left-margin {
+    margin: 0px 0px 0px 10px;
+}
+
+.list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.dotted-underline {
+  border-bottom: 1px dashed #ddd;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.view-more{
+    @extend .dotted-underline;
+    display: inline-block;
+    margin-bottom: 10px;
+}

@@ -12,9 +12,19 @@ import { EditPanelComponent } from './edit-panel/edit-panel.component';
 import { ExtractorViewComponent } from './extractor-view/extractor-view.component';
 import { HomeComponent } from './home/home.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LanguageSelectorComponent } from './form-elements/language-selector/language-selector.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StringListSelectorComponent } from './form-elements/string-list-selector/string-list-selector.component';
+import { ResourceListSelectorComponent } from './form-elements/resource-list-selector/resource-list-selector.component';
+import { MiniResourceDisplayComponent } from './form-elements/mini-resource-display/mini-resource-display.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +34,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EditPanelComponent,
     ExtractorViewComponent,
     HomeComponent,
+    LanguageSelectorComponent,
+    StringListSelectorComponent,
+    ResourceListSelectorComponent,
+    MiniResourceDisplayComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,12 +45,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     BrowserAnimationsModule,
     HttpClientModule,
 
+    FormsModule,
+    ReactiveFormsModule,
+
     SophizeMdRendererModule.forRoot(LocalDataProvider),
 
     MatButtonModule,
+    
+    MatButtonToggleModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule,
   ],
   bootstrap: [AppComponent],
   providers: [
