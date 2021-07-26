@@ -18,24 +18,37 @@ export class ActionPanelComponent {
 
   async load() {
     const val = prompt('Enter resource pointer (example wiki/T_cone): ');
-    if (val) {
-      const ptr = ResourcePointer.fromString(val);
-      if (!ptr) {
-        alert('Invalid Input');
-        return;
-      }
-      try {
-        this.state = State.LOAD;
-        await lastValueFrom(this.workspace.load(ptr));
-      } catch (e) {
-        alert('Failed to load resource: ' + e);
-      } finally {
-        this.state = State.IDLE;
-      }
+    if (!val) return;
+    const ptr = ResourcePointer.fromString(val);
+    if (!ptr) {
+      alert('Invalid Input');
+      return;
+    }
+    try {
+      this.state = State.LOAD;
+      await lastValueFrom(this.workspace.load(ptr));
+    } catch (e) {
+      alert('Failed to load resource: ' + e);
+    } finally {
+      this.state = State.IDLE;
     }
   }
 
-  addNew() {}
+  addNew() {
+    const val = prompt('Enter new resource pointer (example test/T_new): ');
+    if (!val) return;
+    const ptr = ResourcePointer.fromString(val);
+    if (!ptr) {
+      alert('Invalid Input');
+      return;
+    }
+    if(this.workspace.getLoadedResource(ptr)) {
+      alert('already loaded');
+      this.workspace.selectedPtr$.next(ptr);
+      return;
+    }
+    this.workspace.createNew(ptr, {});
+  }
 
   async saveAll() {
     let numSaved = 0;

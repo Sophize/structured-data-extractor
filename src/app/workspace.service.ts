@@ -33,11 +33,13 @@ export class WorkspaceService {
       this.loadedResourceSubject$.next({});
     }
 
-    interval(5000).subscribe((_) => {
-      localStorage.loadedResources = JSON.stringify(
-        Array.from(this.loadedResources.entries())
-      );
-    });
+    interval(120000).subscribe((_) => this.writeToLocalStorage());
+  }
+
+  writeToLocalStorage() {
+    localStorage.loadedResources = JSON.stringify(
+      Array.from(this.loadedResources.entries())
+    );
   }
 
   getLoadedResources() {
@@ -65,6 +67,7 @@ export class WorkspaceService {
         };
         this.loadedResources.set(this.ptrToKey(ptr), loadedResource);
         this.loadedResourceSubject$.next({});
+        this.writeToLocalStorage();
         return loadedResource;
       })
     );
@@ -76,6 +79,7 @@ export class WorkspaceService {
     if (allowDiscard || !this.isModified(ptr)) {
       const v = this.loadedResources.delete(this.ptrToKey(ptr));
       this.loadedResourceSubject$.next({});
+      this.writeToLocalStorage();
       return v;
     }
     return false;
@@ -87,11 +91,13 @@ export class WorkspaceService {
     const loadedResource = { original: {}, updated: resource };
     this.loadedResources.set(this.ptrToKey(ptr), loadedResource);
     this.loadedResourceSubject$.next({});
+    this.writeToLocalStorage();
   }
 
   updateLoaded(ptr: ResourcePointer, updated: Resource) {
     if (!this.isLoaded(ptr)) throw new Error('Resource not loaded');
     this.getLoadedResource(ptr).updated = updated;
+    this.writeToLocalStorage();
   }
 
   isModified(ptr: ResourcePointer): boolean {
