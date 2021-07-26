@@ -131,6 +131,13 @@ export class ResourceListSelectorComponent implements OnInit {
     return this.formResourceIds.controls.length > this.numDisplayedResources;
   }
 
+  newItemKeydown(event) {
+    if (!event.shiftKey && event.key === 'Enter') {
+      event.preventDefault();
+      this.onAddButtonClick();
+    }
+  }
+
   get inputTextResourceType() {
     if (!this.inputTextControl.value) return ResourceType.UNKNOWN;
     const resourcePtr = ResourcePointer.fromString(this.inputTextControl.value);

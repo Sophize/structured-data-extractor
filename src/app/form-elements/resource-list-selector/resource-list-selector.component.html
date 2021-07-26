@@ -30,6 +30,7 @@
       [formControl]="inputTextControl"
       [placeholder]="placeholder"
       [disabled]="editingFrozen"
+      (keydown)="newItemKeydown($event)"
     />
   </mat-form-field>
   <button
@@ -67,6 +68,7 @@
       <mat-icon fontSet="fa" fontIcon="fa-trash-alt"></mat-icon>
     </button>
     <app-mini-resource-display
+      style="margin-top: 12px;"
       [resourceId]="resourceId.value"
       [resourceType]="resourceType"
       [isPropositionPointer]="needsPropositionPointer"

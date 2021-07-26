@@ -1,6 +1,6 @@
 <div *ngIf="ptr" style="margin: 10px">
   <div style="display: flex; justify-content: space-between">
-    <span style="font-size: 17px; margin: auto 0">{{ ptr?.toString() }}</span>
+    <span style="font-size: 17px; margin: auto 0">{{ ptr.toString() }}</span>
     <div style="display: flex">
       <button mat-raised-button color="primary" (click)="save()">Save</button>
       <button mat-raised-button color="accent" (click)="reset()">Reset</button>
@@ -9,19 +9,133 @@
       </button>
     </div>
   </div>
-  <ng-container *ngIf="ptr?.resourceType === ResourceType.TERM">
-    <sophize-md-editor
-      style="width: 100%"
-      ngDefaultControl
-      name="testEditor"
-      placeholder="Enter markdown..."
-      [context]="ptr"
-      [formControl]="control"
-      [editingEnabled]="true"
-    >
-    </sophize-md-editor>
-  </ng-container>
+
+  <mat-form-field
+    *ngIf="ptr.resourceType === TERM"
+    name="phrase"
+    placeholder="phrase"
+  >
+    <input matInput ngDefaultControl [formControl]="phraseControl" />
+  </mat-form-field>
+  
+  <app-string-list-selector
+    *ngIf="ptr.resourceType === TERM"
+    [formArray]="alternatePhrasesFormArray"
+    [horizontalView]="false"
+    [useMarkdown]="true"
+    placeholder="Alternate Phrases"
+  >
+  </app-string-list-selector>
+
+  <sophize-md-editor
+    *ngIf="ptr.resourceType === TERM"
+    ngDefaultControl
+    name="definition"
+    placeholder="Enter Definition"
+    [context]="ptr"
+    [formControl]="definitionControl"
+  >
+  </sophize-md-editor>
+
+  <app-string-list-selector
+    *ngIf="ptr.resourceType !== TERM"
+    [formArray]="namesFormArray"
+    placeholder="Names"
+  >
+  </app-string-list-selector>
+
+  <mat-checkbox
+    *ngIf="ptr.resourceType === TERM"
+    ngDefaultControl
+    name="primtive"
+    [formControl]="primitiveControl"
+  >
+    Is Primitive</mat-checkbox
+  >
+  <app-language-selector style="display: block" [control]="languageControl">
+  </app-language-selector>
+
+  <sophize-md-editor
+    *ngIf="ptr.resourceType === PROPOSITION"
+    ngDefaultControl
+    name="statement"
+    placeholder="Enter statement"
+    [context]="ptr"
+    [formControl]="statementControl"
+  >
+  </sophize-md-editor>
+
+  <sophize-md-editor
+    *ngIf="ptr.resourceType === PROPOSITION"
+    ngDefaultControl
+    name="negativeStatement"
+    placeholder="Enter negative statement"
+    [context]="ptr"
+    [formControl]="negativeStatementControl"
+  >
+  </sophize-md-editor>
+
+  <app-resource-list-selector
+    *ngIf="ptr.resourceType === ARGUMENT"
+    [formSingleResource]="conclusionControl"
+    [needsPropositionPointer]="true"
+    [singleResource]="true"
+    [context]="ptr"
+    placeholder="Conclusion"
+  >
+  </app-resource-list-selector>
+
+  <sophize-md-editor
+    *ngIf="ptr.resourceType === ARGUMENT"
+    ngDefaultControl
+    name="argumentText"
+    placeholder="Enter argument"
+    [context]="ptr"
+    [formControl]="argumentTextControl"
+  >
+  </sophize-md-editor>
+
+  <app-resource-list-selector
+    *ngIf="ptr.resourceType === ARGUMENT"
+    [formResourceIds]="premisesFormArray"
+    [needsPropositionPointer]="true"
+    [context]="ptr"
+    placeholder="Premises"
+  >
+  </app-resource-list-selector>
+
+  <app-resource-list-selector
+    *ngIf="
+      [TERM, PROPOSITION, ARGUMENT].includes(ptr.resourceType) &&
+      languageControl.value != Language.MetamathSetMm
+    "
+    [formResourceIds]="lookupTermsFormArray"
+    [needsPropositionPointer]="false"
+    [resourceType]="TERM"
+    [context]="ptr"
+    placeholder="Lookup Terms"
+  >
+  </app-resource-list-selector>
+
+  <sophize-md-editor
+    *ngIf="[TERM, PROPOSITION].includes(ptr.resourceType)"
+    ngDefaultControl
+    name="remarks"
+    placeholder="Enter Remarks"
+    [context]="ptr"
+    [formControl]="remarksControl"
+  >
+  </sophize-md-editor>
+  <app-string-list-selector
+    [formArray]="citationsFormArray"
+    [horizontalView]="false"
+    [useMarkdown]="true"
+    placeholder="References"
+  >
+  </app-string-list-selector>
+  <app-string-list-selector [formArray]="tagsFormArray" placeholder="Add tags">
+  </app-string-list-selector>
 </div>
 <div style="margin: 10px" *ngIf="!ptr">
-  <i style="font-size: large; color: gray;">Please select a resource</i>
+  <i style="font-size: large; color: gray">Please select a resource</i>
 </div>
