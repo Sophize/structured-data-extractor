@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StringListSelectorComponent } from './form-elements/string-list-selector/string-list-selector.component';
 import { ResourceListSelectorComponent } from './form-elements/resource-list-selector/resource-list-selector.component';
 import { MiniResourceDisplayComponent } from './form-elements/mini-resource-display/mini-resource-display.component';
+import { LatexToMdComponent } from './latex-to-md/latex-to-md.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MiniResourceDisplayComponent } from './form-elements/mini-resource-disp
     StringListSelectorComponent,
     ResourceListSelectorComponent,
     MiniResourceDisplayComponent,
+    LatexToMdComponent,
   ],
   imports: [
     BrowserModule,

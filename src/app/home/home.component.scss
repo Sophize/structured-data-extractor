@@ -33,12 +33,6 @@ svg.material-icons:not(:last-child) {
   background-color: #fafafa;
   height: 40px;
   width: 200px;
-  margin: 0 8px 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   transition: all 0.2s ease-in-out;
   line-height: 24px;
 }
@@ -48,7 +42,7 @@ svg.material-icons:not(:last-child) {
 }
 
 .card.card-small {
-  height: 16px;
+  height: 86px;
   width: 168px;
 }
 
@@ -66,7 +60,8 @@ svg.material-icons:not(:last-child) {
 }
 
 .card.highlight-card {
-  background-color: #1976d2;
+  background-color: #3f51b5;
+  text-align: center;
   color: white;
   font-weight: 600;
   border: none;
@@ -75,9 +70,11 @@ svg.material-icons:not(:last-child) {
   position: relative;
 }
 
-.card.card.highlight-card span {
+.card.card.highlight-card a {
+  display: block;
+  color: inherit;
   font-size: 20px;
-  margin-left: 60px;
+  margin: 0 20px;
   padding: 5px;
 }
 

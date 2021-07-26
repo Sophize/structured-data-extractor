@@ -1,0 +1,34 @@
+<div style="margin: 10px">
+  <mat-form-field style="width: 100%">
+    <input
+      matInput
+      name="serverAddress"
+      placeholder="Server Address"
+      [(ngModel)]="serverAddress"
+    />
+  </mat-form-field>
+  <mat-form-field style="width: 100%">
+    <textarea
+      matInput
+      [mat-autosize]="true"
+      [matAutosizeMinRows]="2"
+      placeholder="Enter LaTeX..."
+      name="editLatexField"
+      [(ngModel)]="inputLatex"
+      floatLabel="never"
+      [disabled]="converting"
+    ></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="convert()">Convert</button>
+
+  <sophize-md-editor
+    style="width: 100%"
+    ngDefaultControl
+    name="testEditor"
+    placeholder="Enter markdown..."
+    [formControl]="control"
+    [editingEnabled]="!converting"
+  >
+  </sophize-md-editor>
+</div>
