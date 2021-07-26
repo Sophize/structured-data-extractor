@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LatexToMdComponent } from './latex-to-md.component';
@@ -8,7 +9,8 @@ describe('LatexToMdComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LatexToMdComponent ]
+      declarations: [ LatexToMdComponent ],
+      imports: [HttpClientModule]
     })
     .compileComponents();
   });

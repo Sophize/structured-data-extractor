@@ -27,6 +27,6 @@ describe('HomeComponent', () => {
     const fixture = TestBed.createComponent(HomeComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content div a span').textContent).toContain('Structured Data Extractor');
+    expect(compiled.querySelector('.content div a').textContent).toContain('Structured Data Extractor');
   });
 });
