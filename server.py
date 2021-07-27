@@ -1,4 +1,5 @@
 import sys
+import json
 import http.server
 import socketserver
 
@@ -19,8 +20,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         filepath = Path('./' +  self.path)
         filepath.parent.mkdir(exist_ok=True)
-        with open(str(filepath),'wb') as fp:
-            fp.write(post_data)
+        with open(str(filepath), 'w') as fp:
+            json_obj = json.loads(post_data)
+            json.dump(json_obj, fp, indent = 2)
+
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()

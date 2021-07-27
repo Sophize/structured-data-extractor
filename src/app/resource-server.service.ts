@@ -30,6 +30,7 @@ export class ResourceServer {
   }
 
   getResources(ptrs: ResourcePointer[]): Observable<Resource[]> {
+    if(!ptrs?.length) return of([]);
     return forkJoin(
       ptrs.map((ptr) => {
         const url = [
