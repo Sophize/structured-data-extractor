@@ -1,0 +1,51 @@
+<div mat-dialog-content>
+  <h2>Link Builder</h2>
+  <span style="color: gray">
+    SELECTED TEXT: [<b style="color: black">{{ data.linkText }}</b
+    >]
+  </span>
+  <mat-form-field style="display: block" name="ptr-pick">
+    <input
+      cdkFocusInitial
+      matInput
+      placeholder="Resource Pointer"
+      [(ngModel)]="inputPtr"
+      (ngModelChange)="onChange()"
+    />
+  </mat-form-field>
+  <mat-radio-group [(ngModel)]="linkType" (ngModelChange)="recreateLinkedMd()">
+    <mat-radio-button value="">Overlay link (Default)</mat-radio-button>
+    <mat-radio-button value="NAV_LINK">Navigation link</mat-radio-button>
+    <mat-radio-button value="NO_LINK">No link</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-radio-group
+    [(ngModel)]="linkTextOption"
+    (ngModelChange)="recreateLinkedMd()"
+  >
+    <mat-radio-button value="">Name/Phrase (Default)</mat-radio-button>
+    <mat-radio-button value="UC">Upper case</mat-radio-button>
+    <mat-radio-button value="LC">Lower case</mat-radio-button>
+    <mat-radio-button value="CUSTOM">Custom Text</mat-radio-button>
+  </mat-radio-group>
+
+  <sophize-md-editor
+    [formControl]="linkedMdControl"
+    ngDefaultControl
+    name="linked"
+    placeholder="Linked Markdown"
+    [context]="data.contextPtr"
+    [formControl]="linkedMdControl"
+  >
+  </sophize-md-editor>
+</div>
+<div mat-dialog-actions style="float: right">
+  <button mat-button [mat-dialog-close]="null">Cancel</button>
+  <button
+    mat-button
+    [mat-dialog-close]="linkedMdControl.value"
+    [disabled]="!chosenPtr"
+  >
+    OK
+  </button>
+</div>

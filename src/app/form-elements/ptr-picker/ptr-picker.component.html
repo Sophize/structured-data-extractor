@@ -1,0 +1,26 @@
+<div mat-dialog-content>
+  <h2>
+    Enter resource pointer (e.g. <i>{{ getSamplePtr().toString() }}</i
+    >)
+  </h2>
+  <mat-form-field style="display: block" name="ptr-pick">
+    <input
+      cdkFocusInitial
+      matInput
+      placeholder="Resource Pointer"
+      [(ngModel)]="input"
+      (keydown)="onKeydown($event)"
+      (ngModelChange)="onChange()"
+    />
+  </mat-form-field>
+  <mat-checkbox
+   *ngIf="data.expandCheck"
+   [(ngModel)]="shouldReplace"
+  >Replace selected text with resource expansion</mat-checkbox>
+</div>
+<div mat-dialog-actions style="float: right">
+  <button mat-button [mat-dialog-close]="null">Cancel</button>
+  <button mat-button [mat-dialog-close]="output()" [disabled]="!chosenPtr">
+    OK
+  </button>
+</div>
