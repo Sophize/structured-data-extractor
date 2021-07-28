@@ -1,4 +1,4 @@
-<div *ngIf="ptr" style="margin: 10px">
+<div *ngIf="ptr" style="margin: 10px" (contextmenu)="onRightClick($event)">
   <div style="display: flex; justify-content: space-between">
     <span style="font-size: 17px; margin: auto 0">{{ ptr.toString() }}</span>
     <div style="display: flex">
@@ -17,7 +17,7 @@
   >
     <input matInput ngDefaultControl [formControl]="phraseControl" />
   </mat-form-field>
-  
+
   <app-string-list-selector
     *ngIf="ptr.resourceType === TERM"
     [formArray]="alternatePhrasesFormArray"
@@ -38,7 +38,7 @@
   </sophize-md-editor>
 
   <app-string-list-selector
-    *ngIf="ptr.resourceType !== TERM"
+    *ngIf="![TERM, ARTICLE].includes(ptr.resourceType)"
     [formArray]="namesFormArray"
     placeholder="Names"
   >
@@ -52,7 +52,11 @@
   >
     Is Primitive</mat-checkbox
   >
-  <app-language-selector style="display: block" [control]="languageControl">
+  <app-language-selector
+    *ngIf="[TERM, PROPOSITION, ARGUMENT].includes(ptr.resourceType)"
+    style="display: block"
+    [control]="languageControl"
+  >
   </app-language-selector>
 
   <sophize-md-editor
@@ -126,6 +130,49 @@
     [formControl]="remarksControl"
   >
   </sophize-md-editor>
+
+  <mat-form-field
+    *ngIf="ptr.resourceType === ARTICLE"
+    name="title"
+    placeholder="Title"
+  >
+    <input
+      matInput
+      ngDefaultControl
+      [formControl]="titleControl"
+      placeholder="Title"
+    />
+  </mat-form-field>
+
+  <sophize-md-editor
+    *ngIf="ptr.resourceType === ARTICLE"
+    ngDefaultControl
+    name="abstract"
+    placeholder="Abstract"
+    [context]="ptr"
+    [formControl]="abstractTextControl"
+  >
+  </sophize-md-editor>
+
+  <app-resource-list-selector
+    *ngIf="ptr.resourceType === ARTICLE"
+    [formSingleResource]="beliefsetControl"
+    [resourceType]="ResourceType.BELIEFSET"
+    [context]="ptr"
+    placeholder="Belief Set"
+  >
+  </app-resource-list-selector>
+
+  <sophize-md-editor
+    *ngIf="ptr.resourceType === ARTICLE"
+    ngDefaultControl
+    name="content"
+    placeholder="Article Body"
+    [context]="ptr"
+    [formControl]="contentControl"
+  >
+  </sophize-md-editor>
+
   <app-string-list-selector
     [formArray]="citationsFormArray"
     [horizontalView]="false"
@@ -139,3 +186,19 @@
 <div style="margin: 10px" *ngIf="!ptr">
   <i style="font-size: large; color: gray">Please select a resource</i>
 </div>
+
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="menu"
+></div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="addLink()">Add Link</button>
+  <button mat-menu-item (click)="extractResource(TERM)">Extract Term</button>
+  <button mat-menu-item (click)="extractResource(PROPOSITION)">
+    Extract Proposition
+  </button>
+  <button mat-menu-item (click)="extractResource(ARGUMENT)">Extract Argument</button>
+</mat-menu>

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
-import { ResourcePointer } from 'sophize-datamodel';
+import { PointerType, ResourcePointer, ResourceType } from 'sophize-datamodel';
 import { save, State } from '../edit-panel/edit-panel.component';
+import { getPtrUsingDialog } from '../form-elements/ptr-picker/ptr-picker.component';
 import { WorkspaceService } from '../workspace.service';
 
 @Component({
@@ -14,16 +16,11 @@ export class ActionPanelComponent {
   state = State.IDLE;
   status = '';
 
-  constructor(private workspace: WorkspaceService) {}
+  constructor(private workspace: WorkspaceService, private dialog: MatDialog) {}
 
   async load() {
-    const val = prompt('Enter resource pointer (example wiki/T_cone): ');
-    if (!val) return;
-    const ptr = ResourcePointer.fromString(val);
-    if (!ptr) {
-      alert('Invalid Input');
-      return;
-    }
+    const ptr = (await lastValueFrom(getPtrUsingDialog(this.dialog))).ptr;
+    if (!ptr) return;
     try {
       this.state = State.LOAD;
       await lastValueFrom(this.workspace.load(ptr));
@@ -34,15 +31,12 @@ export class ActionPanelComponent {
     }
   }
 
-  addNew() {
-    const val = prompt('Enter new resource pointer (example test/T_new): ');
-    if (!val) return;
-    const ptr = ResourcePointer.fromString(val);
-    if (!ptr) {
-      alert('Invalid Input');
-      return;
-    }
-    if(this.workspace.getLoadedResource(ptr)) {
+  async addNew() {
+    const samplePtr = ResourcePointer.fromString('test/T_new');
+    const ptr = (await lastValueFrom(getPtrUsingDialog(this.dialog, samplePtr)))
+      .ptr;
+    if (!ptr) return;
+    if (this.workspace.getLoadedResource(ptr)) {
       alert('already loaded');
       this.workspace.selectedPtr$.next(ptr);
       return;

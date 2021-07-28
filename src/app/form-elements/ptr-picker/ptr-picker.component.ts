@@ -35,12 +35,7 @@ export function getPtrUsingDialog(
   styleUrls: ['./ptr-picker.component.scss'],
 })
 export class PtrPickerComponent {
-  readonly defaultPtr = new ResourcePointer(
-    'wiki',
-    ResourceType.TERM,
-    PointerType.ASSIGNABLE,
-    'cone'
-  );
+  readonly defaultPtr = ResourcePointer.fromString('wiki/T_cone');
 
   constructor(
     private dialogRef: MatDialogRef<PtrPickerComponent>,

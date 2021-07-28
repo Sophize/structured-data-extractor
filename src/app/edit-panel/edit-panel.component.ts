@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { lastValueFrom } from 'rxjs';
 import {
   Argument,
@@ -12,7 +15,14 @@ import {
   ResourceType,
   Term,
 } from 'sophize-datamodel';
+import { getLinkedMdText } from '../form-elements/link-builder/link-builder.component';
+import { getPtrUsingDialog } from '../form-elements/ptr-picker/ptr-picker.component';
 import { WorkspaceService } from '../workspace.service';
+import {
+  getSelectionInfo,
+  replaceSelectedFieldValue,
+  SelectionInfo,
+} from './selection-utils';
 
 export enum State {
   IDLE,
@@ -24,12 +34,18 @@ export enum State {
 export async function save(
   ptr: ResourcePointer,
   workspace: WorkspaceService,
-  stateUpdater: (arg0: State) => void
+  stateUpdater: (arg0: State) => void,
+  snackBar?: MatSnackBar
 ) {
   if (!ptr) return;
   try {
     stateUpdater(State.SAVE);
     await lastValueFrom(workspace.save(ptr));
+    if (snackBar) {
+      snackBar.open('Saved ' + ptr.toDisplayString(), 'Dismiss', {
+        duration: 5000,
+      });
+    }
   } catch (e) {
     alert('save failed: ' + e);
   } finally {
@@ -52,6 +68,7 @@ export class EditPanelComponent implements OnInit {
   TERM = ResourceType.TERM;
   PROPOSITION = ResourceType.PROPOSITION;
   ARGUMENT = ResourceType.ARGUMENT;
+  ARTICLE = ResourceType.ARTICLE;
   Language = Language;
 
   ptr: ResourcePointer = null;
@@ -60,7 +77,17 @@ export class EditPanelComponent implements OnInit {
 
   form = null as FormGroup;
 
-  constructor(private fb: FormBuilder, private workspace: WorkspaceService) {}
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+
+  contextMenuPosition = { x: '0px', y: '0px' };
+  selectionInfo: SelectionInfo = null;
+
+  constructor(
+    private fb: FormBuilder,
+    private workspace: WorkspaceService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.workspace.selectedPtr$.subscribe((ptr) => {
@@ -258,7 +285,12 @@ export class EditPanelComponent implements OnInit {
   }
 
   async save() {
-    await save(this.ptr, this.workspace, (state) => (this.state = state));
+    await save(
+      this.ptr,
+      this.workspace,
+      (state) => (this.state = state),
+      this.snackBar
+    );
   }
 
   async reset() {
@@ -369,5 +401,67 @@ export class EditPanelComponent implements OnInit {
 
   get beliefsetControl() {
     return this.form.get('beliefset') as FormControl;
+  }
+
+  onRightClick(event: MouseEvent) {
+    this.selectionInfo = getSelectionInfo();
+    if (!this.selectionInfo) return true;
+
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.trigger.openMenu();
+    return false;
+  }
+
+  async addLink() {
+    if (!this.selectionInfo) return;
+    // Selection often causes unnecessary space on the right.
+    const selectedText = this.selectionInfo.selectionText.replace(/\s+$/, '');
+    const contextPtr = this.workspace.selectedPtr$.value;
+    const linkedMdText = await lastValueFrom(
+      getLinkedMdText(this.dialog, selectedText, contextPtr)
+    );
+    if (!linkedMdText) return;
+    const formControl = this.form.get(
+      this.selectionInfo.fieldName
+    ) as FormControl;
+    replaceSelectedFieldValue(linkedMdText, this.selectionInfo, formControl);
+  }
+
+  async extractResource(type: ResourceType) {
+    if (!this.selectionInfo) return;
+    const samplePtr = ResourcePointer.fromString('test/T_new');
+    samplePtr.resourceType = type;
+    const pickerOutput = await lastValueFrom(
+      getPtrUsingDialog(this.dialog, samplePtr, true)
+    );
+    const newPtr = pickerOutput.ptr;
+    if (!newPtr) return;
+
+    const selectionText = this.selectionInfo?.selectionText.replace(/\s+$/, '');
+    let resource;
+    if (type === ResourceType.TERM) {
+      resource = { definition: selectionText } as Term;
+    } else if (type === ResourceType.PROPOSITION) {
+      resource = { statement: selectionText } as Proposition;
+    } else if (type === ResourceType.ARGUMENT) {
+      resource = { argumentText: selectionText } as Argument;
+    } else if (type === ResourceType.ARTICLE) {
+      resource = { content: selectionText } as Article;
+    } else {
+      resource = {};
+    }
+    this.workspace.createNew(newPtr, resource);
+
+    if (pickerOutput.shouldReplace) {
+      const formControl = this.form.get(
+        this.selectionInfo.fieldName
+      ) as FormControl;
+      const newValue = `#${newPtr.toDisplayString(this.ptr.datasetId)}|EXPAND`;
+      replaceSelectedFieldValue(newValue, this.selectionInfo, formControl);
+    }
+
+    this.workspace.selectedPtr$.next(newPtr);
   }
 }
