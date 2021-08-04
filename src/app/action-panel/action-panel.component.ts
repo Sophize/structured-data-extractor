@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
-import { PointerType, ResourcePointer, ResourceType } from 'sophize-datamodel';
+import { ResourcePointer } from 'sophize-datamodel';
 import { save, State } from '../edit-panel/edit-panel.component';
 import { getPtrUsingDialog } from '../form-elements/ptr-picker/ptr-picker.component';
 import { WorkspaceService } from '../workspace.service';

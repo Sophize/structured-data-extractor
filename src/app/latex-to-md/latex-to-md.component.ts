@@ -11,7 +11,7 @@ export class LatexToMdComponent {
   inputLatex = '';
   
   // https://github.com/Sophize/md-convert-server
-  serverAddress = 'http://localhost:10001';
+  serverAddress = 'https://md-convert-cloud-run-jouxmxqhuq-uc.a.run.app/';
   output = '';
   converting = false;
   control = new FormControl();

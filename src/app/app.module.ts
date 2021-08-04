@@ -77,7 +77,7 @@ import { LinkBuilderComponent } from './form-elements/link-builder/link-builder.
   ],
   bootstrap: [AppComponent],
   providers: [
-    { provide: 'LocalServerAddress', useValue: 'http://127.0.0.1:8080' },
+    { provide: 'ResourceServerAddress', useValue: 'http://localhost:8080' },
   ],
 })
 export class AppModule {}

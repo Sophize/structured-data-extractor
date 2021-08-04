@@ -11,7 +11,7 @@ describe('ActionPanelComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientModule, MatDialogModule],
       declarations: [ActionPanelComponent],
-      providers: [{ provide: 'LocalServerAddress', useValue: '' }],
+      providers: [{ provide: 'ResourceServerAddress', useValue: '' }],
     }).compileComponents();
   });
 

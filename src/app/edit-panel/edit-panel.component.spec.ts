@@ -20,7 +20,7 @@ describe('EditPanelComponent', () => {
         ReactiveFormsModule,
       ],
       declarations: [EditPanelComponent],
-      providers: [{ provide: 'LocalServerAddress', useValue: '' }],
+      providers: [{ provide: 'ResourceServerAddress', useValue: '' }],
     }).compileComponents();
   });
 

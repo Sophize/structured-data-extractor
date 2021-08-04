@@ -10,7 +10,7 @@ describe('ResourceListPanelComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientModule],
       declarations: [ResourceListPanelComponent],
-      providers: [{ provide: 'LocalServerAddress', useValue: '' }],
+      providers: [{ provide: 'ResourceServerAddress', useValue: '' }],
     }).compileComponents();
   });
 

@@ -10,7 +10,7 @@ import { Language, Resource, ResourcePointer } from 'sophize-datamodel';
 export class ResourceServer {
   metamathKeys = new Map<string, string>();
   constructor(
-    @Inject('LocalServerAddress') private serverAddress: string,
+    @Inject('ResourceServerAddress') private serverAddress: string,
     private http: HttpClient
   ) {
     console.log('Server address: ' + serverAddress);
