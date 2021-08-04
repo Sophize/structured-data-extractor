@@ -1,0 +1,24 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+handlers:
+- url: /(.*\.(gif|png|jpg|ico|ttf|svg|woff2|woff|eot)(|\.map))$
+  secure: always
+  static_files: dist/\1
+  upload: dist/(.*)(|\.map)
+  expiration: "365d"
+
+- url: /(.*\.(css|js|json|txt|xml)(|\.map))$
+  secure: always
+  static_files: dist/\1
+  upload: dist/(.*)(|\.map)
+
+- url: /(.*)
+  secure: always
+  static_files: dist/index.html
+  upload: dist/index.html
+
+- url: /
+  secure: always
+  static_files: dist/index.html
+  upload: dist/index.html

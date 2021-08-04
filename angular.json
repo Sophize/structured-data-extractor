@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/structured-data-extractor",
+            "outputPath": "dist",
             "index": "src/index.html",
             // See https://stackoverflow.com/questions/51485868/inject-must-be-called-from-an-injection-context"
             "preserveSymlinks": true,
