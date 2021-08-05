@@ -22,7 +22,7 @@
 
 
 \begin{abstract}
-Sophize is a novel mathematics library and discussion platform with a mission to help our users find and organize mathematical proofs. We have extended the Markdown language to represent the connections between mathematical objects that exist across various sources of knowledge. Using the new language, we showcase an interactive interface that helps users explore mathematics content on the web. \todo{1-2 sentences about SDET} This contribution sketches the basic ideas and provides links to some demos of the new functionality.
+Sophize is a novel mathematics library and discussion platform with a mission to help our users find and organize mathematical proofs. We have extended the Markdown language to represent the connections between mathematical objects that exist across various sources of knowledge. It allows embedding of semantic informations (definitions, propositions and proofs) in documents. Using the new language, we showcase an interactive interface that helps users explore mathematics content on the web. We have also developed an online tool that helps in converting \LaTeX\space documents to this new language and adding semantic information.
 
 \end{abstract}
 
@@ -56,7 +56,7 @@ Hence, we required novel knowledge organization techniques to connect mathematic
 
 In this paper, we present the features of Sophize Markdown, an extension of the Markdown language. It is convenient enough to be used for casual discussions of mathematical ideas over the web. It is also powerful enough to embed mathematical entities such as definitions, theorems, and proofs from various sources, including formal systems. It thus plays an integral role in the two problems that we have mentioned above.
 
-\todo{intro about SDET}
+In addition, we have developed an online tool that helps in extracting definitions, propositions and proofs from existing documents. In addition, it allows users to easily add semantic information to documents.
 
 Section 3 presents Sophize Markdown as a lightweight interface for representing math content, and Section 4 describes the online tool that help to easily add links and extract structured data from from existing documents. Finally, Section 5 concludes the paper.
 
@@ -85,7 +85,7 @@ For example, the Pythagorean theorem (a \textbf{P}roposition) represented in the
 
 Markdown is a lightweight markup language for creating formatted text using a plain-text editor. Markdown is very widely adopted on the web, and it makes it quite simple to add lists, headers, bold or italic fonts, images, and more. One can choose from several slightly varying Markdown specifications. We start with the widely supported CommonMark specification and create extensions for the features that we need. The extensions are implemented using the `markdown-it' \cite{markdown_it} JavaScript parser. The parser for Sophize Markdown produces an abstract syntax tree (AST). A separate renderer module utilizes the AST tree to create the appropriate HTML or Single Page Application (SPA) libraries. Many of the features of Sophize Markdown are demonstrated at: \url{https://youtu.be/5UYOpQwcjCk}
 
-\subsection{Embedding structured data}
+\subsection{Embedding structured data}  \label{structuredData}
 
 With Sophize Markdown we can easily embed resources such as terms, propositions, and arguments. Links can be added using the resource's URI, and the following formats are supported:
 
@@ -230,16 +230,27 @@ what fetched \$1.3 million recently. While it may not fetch many \$s, I like the
 equations more: $$G_{\mu \nu }+\Lambda g_{\mu \nu }=\kappa T_{\mu \nu }$$
 \end{mdframed}
 
-\subsection{Sophize Markdown benefits}
-\todo{Find a good location or remove this}
-Project collaborators get all the benefits of Sophize Markdown, such as easy linking of existing math content, \LaTeX\space support, and live preview of pages and comments being written or edited.
-
-Comments in Sophize are numbered serially (starting with 1 for each collaboration), each comment can be referenced with the hashtag notation (e.g., `\#3' for the 3rd comment). Comments in an external project can be referenced by providing the project's URI (\#URI/COMMENT\_NUMBER).
-
-Also, we make it extremely easy to extract terms, propositions and proofs from comments. These resources not only help in better understanding of the project, it also helps build Sophize's library.
-
 \section{Online Structured Data Extraction Tool}
-\todo{Write this section, add videos, screenshots}
+
+The online tool developed as a part of this project provides two functionalities to users. Firstly, it allows Sophize library maintainers to easily select and extract semantic knowledge (definitions, propositions and proofs) from documents using an web-based interactive interface. Secondly, it makes it easy to add resource links (See Section \ref{structuredData}) to markdown documents.
+
+The components of the tool are described in the following sections.
+
+\subsection{Managing Resources}
+
+The tool has been designed to allow multiple resources to be modified simultaneously. The tool reads and writes multiple resources to an external server. Any external server that implements these two APIs (read and write) can be used with this tool. Such a server could store these resources in any kind of database. As a part of this project, we also provide a simple server that manages resources by writing and reading resources to and from local disk.
+
+The tool loads resources from the external server in the local storage section of the browser. This allows the modifications to persist even the page is closed or refreshed. Any new resources created or extracted are also placed in local storage. The user can modify all resources simultaneously and once the required changes are made, the resources are written back the external server with a single click.
+
+\subsection{Webpage for extracting/embedding structured data}
+For ease of use, all the features of the tool have been integrated in a single page. The top section of the page has button for the loading, unloading, saving and creating new resources. A navigation bar on the left lets users easily switch between different resources currently loaded. Any changes made are automatically written to browser's local storage before the user chooses to save their changes to the external server.
+
+In addition, we created a new context menu when user has selected a portion of text in any of the forms. The context menu has options to extract the selected text as a definition, proposition or argument and to convert the selet text to a Sophize Markdown link. Thus, by simply selecting and right-clicking the text we can perform the task of embedding and extracting semantic data in documents. The various options of these tasks are displayed using convenient modal dialogs.
+
+\subsection{Server to convert \LaTeX\space document to Markdown }
+
+Since most mathematical knowledge is present in \LaTeX\space documents, there is a need for an easy way to first convert these documents to Markdown before this tool can be used on them. Pandoc is the obvious choice for this conversion. A Python server that utilizes the Pandoc converter has been developed. It also performs some processing of the input and output to circumvent some limitations of Katex library that is used for rendering Math mode content. Using this server we provide a convenient copy-paste interface in the tool for easy conversion.
+
 
 \section{Conclusion and Future Work}
 
@@ -249,7 +260,9 @@ In the future, we want to make a substantial portion of math literature embedded
 
 
 \subsection*{Sources}
-The Sophize Markdown parser and its Angular renderer source code are available under an MIT license at \url{https://github.com/Sophize/sophize-md-parser} and \url{https://github.com/Sophize/ngx-sophize-md-renderer}, respectively. The NPM packages for these projects are named `sophize-md-parser' and `ngx-sophize-md-renderer'. <TODO: Structured Data extractor>
+All code for this project has been released under the MIT license. The Sophize Markdown parser and its Angular renderer source code are available at \url{https://github.com/Sophize/sophize-md-parser} and \url{https://github.com/Sophize/ngx-sophize-md-renderer}, respectively. The NPM packages for these projects are named `sophize-md-parser' and `ngx-sophize-md-renderer'.
+
+The source code for Structure Data Extraction Tool is available at \url{https://github.com/Sophize/structured-data-extractor} and it is hosted at \url{https://sdet.sophize.org}. The code for the server that converts \LaTeX\space documents to Markdown is at \url{https://github.com/Sophize/md-convert-server}.
 
 \bibliographystyle{alpha} 
 
