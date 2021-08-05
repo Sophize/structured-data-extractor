@@ -8,6 +8,8 @@
 \usepackage{upquote}
 \usepackage{lmodern}
 \usepackage[normalem]{ulem}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \title{Sophize Markdown and Online Structured Data Extraction Tool }
 
@@ -22,7 +24,7 @@
 
 
 \begin{abstract}
-Sophize is a novel mathematics library and discussion platform with a mission to help our users find and organize mathematical proofs. We have extended the Markdown language to represent the connections between mathematical objects that exist across various sources of knowledge. It allows embedding of semantic informations (definitions, propositions and proofs) in documents. Using the new language, we showcase an interactive interface that helps users explore mathematics content on the web. We have also developed an online tool that helps in converting \LaTeX\space documents to this new language and adding semantic information.
+Sophize is a novel mathematics library and discussion platform with a mission to help our users find and organize mathematical proofs. We have extended the Markdown language to represent the connections between mathematical objects that exist across various sources of knowledge. It allows embedding of semantic information (definitions, propositions and proofs) in documents. Using the new language, we showcase an interactive interface that helps users explore mathematics content on the web. We have also developed an online tool that helps in converting \LaTeX\space documents to this new language and adding semantic information.
 
 \end{abstract}
 
@@ -56,7 +58,7 @@ Hence, we required novel knowledge organization techniques to connect mathematic
 
 In this paper, we present the features of Sophize Markdown, an extension of the Markdown language. It is convenient enough to be used for casual discussions of mathematical ideas over the web. It is also powerful enough to embed mathematical entities such as definitions, theorems, and proofs from various sources, including formal systems. It thus plays an integral role in the two problems that we have mentioned above.
 
-In addition, we have developed an online tool that helps in extracting definitions, propositions and proofs from existing documents. In addition, it allows users to easily add semantic information to documents.
+We have also developed an online tool that helps in extracting definitions, propositions and proofs from existing documents. It also allows users to easily add semantic information to documents.
 
 Section 3 presents Sophize Markdown as a lightweight interface for representing math content, and Section 4 describes the online tool that help to easily add links and extract structured data from from existing documents. Finally, Section 5 concludes the paper.
 
@@ -234,29 +236,55 @@ equations more: $$G_{\mu \nu }+\Lambda g_{\mu \nu }=\kappa T_{\mu \nu }$$
 
 The online tool developed as a part of this project provides two functionalities to users. Firstly, it allows Sophize library maintainers to easily select and extract semantic knowledge (definitions, propositions and proofs) from documents using an web-based interactive interface. Secondly, it makes it easy to add resource links (See Section \ref{structuredData}) to markdown documents.
 
-The components of the tool are described in the following sections.
+The major components of the tool are described in the following sections.
+
+\begin{figure}[ht]
+\begin{center}
+\fbox{\includegraphics[height=12cm]{sdet_overview}}
+\caption{Main page of Structured data extraction tool.}
+\end{center}
+\end{figure}
 
 \subsection{Managing Resources}
 
-The tool has been designed to allow multiple resources to be modified simultaneously. The tool reads and writes multiple resources to an external server. Any external server that implements these two APIs (read and write) can be used with this tool. Such a server could store these resources in any kind of database. As a part of this project, we also provide a simple server that manages resources by writing and reading resources to and from local disk.
+The tool has been designed to allow multiple resources to be modified simultaneously. The tool reads and writes multiple resources to an external server. Any external server that implements these two APIs (read and write) can be used with this tool. Such a server could store these resources in any kind of database. As a part of this project, we also provide a simple server that manages resources by writing and reading resources to and from the local disk.
 
 The tool loads resources from the external server in the local storage section of the browser. This allows the modifications to persist even the page is closed or refreshed. Any new resources created or extracted are also placed in local storage. The user can modify all resources simultaneously and once the required changes are made, the resources are written back the external server with a single click.
 
 \subsection{Webpage for extracting/embedding structured data}
-For ease of use, all the features of the tool have been integrated in a single page. The top section of the page has button for the loading, unloading, saving and creating new resources. A navigation bar on the left lets users easily switch between different resources currently loaded. Any changes made are automatically written to browser's local storage before the user chooses to save their changes to the external server.
+For ease of use, all the features of the tool have been integrated into a single page. The top section of the page has buttons for loading, unloading, saving, and creating new resources. The left navigation bar lets users easily switch between different resources currently loaded. Any changes made are automatically written to the browser's local storage before the user chooses to save their changes to the external server.
 
-In addition, we created a new context menu when user has selected a portion of text in any of the forms. The context menu has options to extract the selected text as a definition, proposition or argument and to convert the selet text to a Sophize Markdown link. Thus, by simply selecting and right-clicking the text we can perform the task of embedding and extracting semantic data in documents. The various options of these tasks are displayed using convenient modal dialogs.
+In addition, a new context menu shows up when the user has selected a portion of text in any of the resource fields. The context menu has options to extract the selected text as a definition, proposition, or argument and to convert the selected text to a Sophize Markdown link. Thus, by simply selecting and right-clicking the text we can perform the task of embedding and extracting semantic data in documents. The various options of these tasks are displayed using convenient modal dialogs.
+
+
+\begin{figure}[ht]
+\begin{center}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \fbox{\includegraphics[width=0.74\linewidth]{sdet_contextmenu}}
+  \caption{Context menu to add link and extract resources}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \fbox{\includegraphics[width=0.93\linewidth]{sdet_add_link}}
+  \caption{Adding Sophize Markdown Link}
+  \label{fig:sub2}
+\end{subfigure}
+\caption{Select and right-click interface for embedding and extracting structured data.}
+\end{center}
+\end{figure}
 
 \subsection{Server to convert \LaTeX\space document to Markdown }
 
-Since most mathematical knowledge is present in \LaTeX\space documents, there is a need for an easy way to first convert these documents to Markdown before this tool can be used on them. Pandoc is the obvious choice for this conversion. A Python server that utilizes the Pandoc converter has been developed. It also performs some processing of the input and output to circumvent some limitations of Katex library that is used for rendering Math mode content. Using this server we provide a convenient copy-paste interface in the tool for easy conversion.
+Since most mathematical knowledge is present in \LaTeX\space documents, there is a need for an easy way to first convert these documents to Markdown before this tool can be used on them. Pandoc is the obvious choice for this conversion. A Python server that utilizes the Pandoc converter has been developed. It also performs input and output processing to circumvent some limitations of the Katex library that is used for rendering Math mode content. Using this server we provide a convenient copy-paste interface in the tool for easy conversion.
 
 
 \section{Conclusion and Future Work}
 
 We have presented Sophize Markdown, a lightweight language for representing mathematical knowledge on the web. Using this language, we can easily embed mathematical entities like definitions, theorems, and proofs, making it very convenient to find and browse relevant content. Sophize Markdown plays a central role in organizing proofs from various data sources on the Sophize platform. While there are other ways to represent semantic knowledge, such as content MathML and OpenMath, their scope is somewhat limited to specifying the meaning of the mathematical formula. The sTeX system \cite{Kohlhase2008} is perhaps most similar to Sophize Markdown but it needs creation of \LaTeX\space documents and use of \LaTeX ML systems. This makes its use in real-time web workflows impractical.
 
-In the future, we want to make a substantial portion of math literature embedded with structured data available at a much greater scale. Thus, we will improve Sophize Markdown's support for \LaTeX\space features like equation numbering, tables, and references. In addition, we will be improving the tool to significantly reduce the manual effort required to extract resources and add links by creating better interfaces and automating some tedious tasks. This process will also be aided by the recent supervised learning techniques \cite{ginev2019scientific} that classify scientific statements in literature.
+In the future, we want to make a substantial portion of math literature embedded with structured data available at a much greater scale. Thus, we will improve Sophize Markdown's support for \LaTeX\space features like equation numbering, tables, and references. We also need to improve rendering time for large documents. In addition, we will be improving the tool to significantly reduce the manual effort required to extract resources and add links by creating better interfaces and automating some tedious tasks.This process will also be aided by the recent supervised learning techniques \cite{ginev2019scientific} that classify scientific statements in literature.
 
 
 \subsection*{Sources}

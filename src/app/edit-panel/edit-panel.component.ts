@@ -156,7 +156,7 @@ export class EditPanelComponent implements OnInit {
       case ResourceType.PROPOSITION:
         return {
           statement: this.statementControl.value,
-          negativeStatement: this.definitionControl.value,
+          negativeStatement: this.negativeStatementControl.value,
           language: this.languageControl.value,
           remarks: this.remarksControl.value,
           lookupTerms: this.lookupTermsFormArray.controls.map((c) =>
