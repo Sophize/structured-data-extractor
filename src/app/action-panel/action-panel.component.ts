@@ -19,7 +19,7 @@ export class ActionPanelComponent {
   constructor(private workspace: WorkspaceService, private dialog: MatDialog) {}
 
   async load() {
-    const ptr = (await lastValueFrom(getPtrUsingDialog(this.dialog))).ptr;
+    const ptr = (await lastValueFrom(getPtrUsingDialog(this.dialog)))?.ptr;
     if (!ptr) return;
     try {
       this.state = State.LOAD;
@@ -34,7 +34,7 @@ export class ActionPanelComponent {
   async addNew() {
     const samplePtr = ResourcePointer.fromString('test/T_new');
     const ptr = (await lastValueFrom(getPtrUsingDialog(this.dialog, samplePtr)))
-      .ptr;
+      ?.ptr;
     if (!ptr) return;
     if (this.workspace.getLoadedResource(ptr)) {
       alert('already loaded');

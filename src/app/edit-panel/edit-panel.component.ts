@@ -215,7 +215,7 @@ export class EditPanelComponent implements OnInit {
           this.remarksControl.setValue(proposition.remarks);
           setFormArray(
             this.lookupTermsFormArray,
-            this.stringToPtrArray(term?.lookupTerms)
+            this.stringToPtrArray(proposition?.lookupTerms)
           );
           break;
 
@@ -232,7 +232,7 @@ export class EditPanelComponent implements OnInit {
           );
           setFormArray(
             this.lookupTermsFormArray,
-            this.stringToPtrArray(term?.lookupTerms)
+            this.stringToPtrArray(argument?.lookupTerms)
           );
           break;
         case ResourceType.ARTICLE:
@@ -325,6 +325,12 @@ export class EditPanelComponent implements OnInit {
     }
     if (unloaded) this.workspace.selectedPtr$.next(null);
     return unloaded;
+  }
+
+  get lookupTerms() {
+    return this.lookupTermsFormArray.controls.map((c) =>
+      ResourcePointer.fromString(c.value.toString(), this.ptr.datasetId)
+    );
   }
 
   get phraseControl() {
@@ -436,7 +442,7 @@ export class EditPanelComponent implements OnInit {
     const pickerOutput = await lastValueFrom(
       getPtrUsingDialog(this.dialog, samplePtr, true)
     );
-    const newPtr = pickerOutput.ptr;
+    const newPtr = pickerOutput?.ptr;
     if (!newPtr) return;
 
     const selectionText = this.selectionInfo?.selectionText.replace(/\s+$/, '');
